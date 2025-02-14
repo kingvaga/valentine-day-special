@@ -59,13 +59,16 @@
       <div class="six">
         <img src="img/vector.jpg" alt="" class = "girl-dp" id="imagePath" />
         <div class="wish">
-          <h3 class="wish-hbd">Happy Valentine's Day</h3>
+          <h3 class="wish-hbd">Happy Valentine's</h3>
           <!-- <h5 id="wishText">Abuto shit</h5> -->
            
-          <audio id="audio" controls autoplay>
+          <audio id="audio" controls autoplay playsinline>
             <source src="./song/song.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
-        </audio>
+          </audio>
+          
+          <button id="playButton">🎵 Tap to Play Music</button>
+        
         </div>
       </div>
       <div class="seven">
@@ -129,20 +132,33 @@
         
       </div>
     </div>
+    
     <script>
-   
-      function playAudioAfterDelay(delay) {
-          setTimeout(function() {
-              var audio = document.getElementById("audio");
-              audio.muted = false;
-              audio.play().catch(function(error) {
-                  console.error("Error playing audio:", error);
+      document.addEventListener("DOMContentLoaded", function() {
+          var audio = document.getElementById("audio");
+          var playButton = document.getElementById("playButton");
+    
+          // Ensure the audio is not muted
+          audio.muted = false;
+    
+          // Try autoplay after user interaction
+          function enableAudio() {
+              audio.play().then(() => {
+                  console.log("Audio is playing.");
+                  playButton.style.display = "none"; // Hide button after playing
+              }).catch(error => {
+                  console.error("Autoplay failed. User interaction required:", error);
+                  playButton.style.display = "block"; // Show button if autoplay fails
               });
-          }, delay);
-      }
-
-      playAudioAfterDelay(12000); 
-  </script>
+          }
+    
+          // Play audio when the user taps anywhere
+          document.body.addEventListener("click", enableAudio, { once: true });
+    
+          // Play audio when the button is clicked
+          playButton.addEventListener("click", enableAudio);
+      });
+    </script>
     
   </body>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
